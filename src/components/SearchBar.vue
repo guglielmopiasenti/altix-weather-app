@@ -14,7 +14,7 @@ const emitSearch = () => {
 
 
 <template>
-  <div class="flex items-center justify-end my-10">
+  <div class="flex items-center justify-center md:justify-end my-10">
     <div class="flex rounded-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm px-2 max-w-[400px] shadow-lg">
       <input v-model="city" @keyup.enter="emitSearch" type="text"
         class="w-full flex bg-transparent pl-2 text-gray-200 outline-0" placeholder="Enter city name" />

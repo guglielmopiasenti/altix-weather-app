@@ -39,34 +39,33 @@ const searchWeather = async (city) => {
       <!-- Background Overlay -->
       <div class="absolute inset-0 bg-black opacity-25 z-0 min-h-screen"></div>
       <div class="relative">
-        <div class="container mx-auto py-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <!-- header section -->
           <header class="flex items-center justify-center gap-5">
-            <h1 class="text-6xl py-10 text-center text-gray-200">WeatherWhiz</h1>
-            <img class="max-h-14 mt-3" src="/logo.png" alt="">
+            <h1 class="text-4xl sm:text-6xl py-5 sm:py-10 text-center text-gray-200">WeatherWhiz</h1>
+            <img class="max-h-8 md:max-h-14 mt-3" src="/logo.png" alt="">
           </header>
           <SearchBar :defaultCity="'Rotterdam'" @search="searchWeather" />
 
-
           <!-- main section -->
           <main>
-            <div class="bg-gray-300 rounded-lg py-10 px-5">
+            <div class="bg-gray-300 rounded-lg py-5 sm:py-10 px-3 sm:px-5">
               <div v-if="currentWeather">
-                <h1 class="text-3xl pb-10">Current Weather in {{ currentWeather.name }}</h1>
+                <h1 class="text-2xl sm:text-3xl pb-5 sm:pb-10">Current Weather in {{ currentWeather.name }}</h1>
                 <p>{{ currentWeather.main.temp }}°C - {{ currentWeather.weather[0].description }}</p>
               </div>
             </div>
 
             <!-- grouped forecast -->
-            <div class="py-20" v-if="groupedForecast">
-              <h2 class="text-2xl py-10 text-gray-200 font-bold">5 Day Forecast</h2>
-              <div class="grid grid-cols-5 gap-10">
+            <div class="py-10 sm:py-20" v-if="groupedForecast">
+              <h2 class="text-xl sm:text-2xl py-5 sm:py-10 text-gray-200 font-bold">5 Day Forecast</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
                 <div
                   class="forecast-card bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg shadow-lg p-5"
                   v-for="(day, index) in groupedForecast" :key="index">
-                  <div class="grid grid-cols-2 gap-5 pb-5">
+                  <div class="grid grid-cols-2 md-gap-5 md-pb-5">
                     <h3 class="text-lg">{{ day.date }}</h3>
-                    <img class="max-h-16" :src="day.imageUrl" alt="Weather Image">
+                    <img class="max-h-16 justify-self-end" :src="day.imageUrl" alt="Weather Image">
                   </div>
                   <p class="font-light">Avg Temp: <span class="font-normal">{{ day.avgTemp }}°C</span></p>
                   <p class="font-light">Condition: <span class="font-normal">{{ day.condition }}</span></p>
