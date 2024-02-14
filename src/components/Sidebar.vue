@@ -6,7 +6,7 @@ const props = defineProps({
   cities: Array
 });
 
-const emit = defineEmits(['add-city', 'select-city']);
+const emit = defineEmits(['add-city', 'select-city', 'close-sidebar']);
 
 const newCity = ref('');
 
@@ -20,13 +20,24 @@ const addCity = () => {
 const selectCity = (city) => {
   emit('select-city', city);
 };
+
+const closeSidebar = () => {
+  emit('close-sidebar');
+};
 </script>
 
 <template>
   <div class="fixed top-0 left-0 h-full min-w-94 bg-white bg-opacity-50 backdrop-filter backdrop-blur-sm transform -translate-x-full transition-transform duration-300 z-10" :class="{ 'translate-x-0': isOpen }">
-    <div class="flex items-center p-4 border-b">
-      <img src="/logo.png" alt="WeatherWhiz Logo" class="h-8 mr-2">
-      <h2 class="text-xl font-semibold">WeatherWhiz</h2>
+    <div class="flex p-4 border-b justify-between items-center">
+      <div class="flex">
+        <img src="/logo.png" alt="WeatherWhiz Logo" class="h-8 mr-2">
+        <h2 class="text-xl font-semibold">WeatherWhiz</h2>
+      </div>
+      <button @click="closeSidebar" class="focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
     <div class="p-4">
       <input v-model="newCity" @keyup.enter="addCity" class="block w-full rounded-full border-0 mt-5 mb-14 py-1.5 pl-7 pr-20 text-gray-700 outline-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-200 sm:text-sm sm:leading-6 shadow" placeholder="Add a city" />

@@ -1,8 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+
+import { ref, onMounted, watch } from 'vue';
+
 import { fetchCurrentWeather, fetchWeatherForecast } from './services/WeatherService';
+
 import useSelectImage from './composables/useSelectImage';
 import useGroupByDay from './composables/useGroupByDay';
+import useGeolocation from './composables/useGeolocation';
 
 import SearchBar from './components/SearchBar.vue';
 import Sidebar from './components/Sidebar.vue';
@@ -15,11 +19,11 @@ const { selectImage } = useSelectImage();
 const { groupedForecast } = useGroupByDay(weatherForecast, selectImage);
 const isSidebarOpen = ref(false);
 const cities = ref([]);
-const selectedCity = ref(null);
+const { city, getLocation } = useGeolocation();
 
 
 onMounted(() => {
-  searchWeather('Rotterdam');
+  getLocation();
 });
 
 const searchWeather = async (city) => {
@@ -41,9 +45,17 @@ const handleAddCity = (city) => {
 };
 
 const handleSelectCity = (city) => {
-  selectedCity.value = city;
-  fetchCurrentWeather(city);
+  searchWeather(city);
 };
+
+watch(city, (newCity) => {
+  console.log("City in watch:", newCity);
+  if (newCity) {
+    searchWeather(newCity);
+  } else {
+    searchWeather('Rotterdam');
+  }
+});
 
 
 </script>
@@ -56,7 +68,7 @@ const handleSelectCity = (city) => {
       <!-- Background Overlay -->
       <div class="absolute inset-0 bg-black opacity-25 z-0 min-h-screen"></div>
       <div class="relative">
-        <Sidebar :cities="cities" :isOpen="isSidebarOpen" @add-city="handleAddCity" @select-city="handleSelectCity" />
+        <Sidebar :cities="cities" :isOpen="isSidebarOpen" @add-city="handleAddCity" @select-city="handleSelectCity" @close-sidebar="isSidebarOpen = false"/>
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <!-- header section -->
           <header class="flex items-center justify-center gap-5">
