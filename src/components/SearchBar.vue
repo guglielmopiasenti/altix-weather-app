@@ -2,20 +2,22 @@
 import { ref, defineEmits } from 'vue';
 
 const props = defineProps({
-  defaultCity: String
+  defaultCity: String,
+  cities: Array
 });
 const city = ref(props.defaultCity || '');
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'city-added']);
 
 const emitSearch = () => {
   emit('search', city.value);
+  emit('city-added', city.value);
 };
 </script>
 
 
 <template>
   <div class="flex items-center justify-center md:justify-end my-10">
-    <div class="flex rounded-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm px-2 max-w-[400px] shadow-lg">
+    <div class="flex rounded-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm px-2 max-w-[400px] shadow-lg hover:ring-2 hover:ring-blue-200 hover:ring-opacity-60">
       <input v-model="city" @keyup.enter="emitSearch" type="text"
         class="w-full flex bg-transparent pl-2 text-gray-200 outline-0" placeholder="Enter city name" />
       <button @click="emitSearch" type="button" class="relative p-2">
