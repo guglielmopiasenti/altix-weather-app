@@ -1,7 +1,54 @@
-# Vue 3 + Vite
+# WeatherWiz: Your Local Weather App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Welcome to the WeatherWiz app! This is a Vue.js-based application that provides real-time weather information. Follow these instructions to set up and run the WeatherWiz project on your local machine.
 
-## Recommended IDE Setup
+## Prerequisites
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Before you begin, ensure you have the following installed on your system:
+
+- Git
+- npm (Node Package Manager)
+- Supabase access
+
+
+## Cloning the Repository
+
+To get started, you need to clone the WeatherWiz repository to your local machine. Open your terminal and run the following command:
+
+`git clone https://github.com/guglielmopiasenti/altix-weather-app.git`
+
+This command will create a copy of the WeatherWiz repository in your local environment.
+
+## Installing Dependencies
+
+Once the repository is cloned, navigate to the project directory:
+
+`cd weatherwiz`
+
+Now, install the necessary dependencies using npm:
+
+
+`npm install`
+
+This command will install all the dependencies defined in the package.json file.
+
+## Building the Project
+
+To build the project for production, run the following command:
+
+
+`npm run build`
+
+This will create a dist folder containing the production build of your app.
+
+## Running in Development Mode
+
+To run WeatherWiz in development mode, use the following command:
+
+`npm run serve`
+
+This will start the Vue.js development server. You can access the app at http://localhost:5173/ (or a different port if 5173 is in use).
+
+## Conclusion
+
+That's it! You should now have WeatherWiz running on your local machine.
