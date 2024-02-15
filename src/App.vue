@@ -9,6 +9,7 @@ import useSelectBackgroundColor from './composables/useSelectBackgroundColor';
 import SearchBar from './components/SearchBar.vue';
 import Sidebar from './components/Sidebar.vue';
 import Loader from './components/Loader.vue';
+import { useDateFormatter } from './composables/useDateFormatter';
 
 // Reactive state declarations
 const currentWeather = ref(null);
@@ -22,6 +23,9 @@ const { city, getLocation } = useGeolocation();
 const tempUnit = ref('metric');
 const { selectBackgroundColor } = useSelectBackgroundColor();
 const isLoading = ref(true);
+const timestamp = ref(currentWeather.value?.dt);
+
+const { formattedDate } = useDateFormatter(timestamp);
 
 // Fetch user's location on mount
 onMounted(() => {
@@ -65,6 +69,11 @@ watch(() => tempUnit.value, (newUnit) => {
     searchWeather(city.value, newUnit);
   }
 });
+watch(currentWeather, (newWeather) => {
+  if (newWeather && newWeather.dt) {
+    timestamp.value = newWeather.dt;
+  }
+}, { immediate: true });
 
 // Function to update temperature unit
 const updateTempUnit = (newUnit) => {
@@ -110,7 +119,8 @@ const updateTempUnit = (newUnit) => {
               :class="selectBackgroundColor(currentWeather.weather[0].description)">
               <div class="flex justify-between" v-if="currentWeather">
                 <div>
-                  <h1 class="text-2xl sm:text-3xl pb-5 sm:pb-10">Current Weather in {{ currentWeather.name }}</h1>
+                  <h1 class="text-2xl sm:text-3xl">Current Weather in {{ currentWeather.name }}</h1>
+                  <h2 class="text-xl py-5 sm:py-10">{{ formattedDate }}</h2>
                   <p class="font-light">Avg Temp: <span class="font-normal">{{ currentWeather.main.temp }} °{{ tempUnit
                     ===
                     'metric' ? 'C' : 'F' }}</span></p>

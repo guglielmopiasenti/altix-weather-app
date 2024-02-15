@@ -34,9 +34,16 @@ export default function useGroupByDay(weatherForecast, selectImage) {
 
   // Reactive computation of grouped forecast data.
   const groupedForecast = computed(() => {
-    return weatherForecast.value && weatherForecast.value.list
-      ? groupByDay(weatherForecast.value.list)
-      : [];
+    
+    let forecastByDay =
+      weatherForecast.value && weatherForecast.value.list
+        ? groupByDay(weatherForecast.value.list)
+        : [];
+
+   
+    forecastByDay = forecastByDay.slice(1, 6);
+
+    return forecastByDay;
   });
 
   return { groupedForecast };
