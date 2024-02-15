@@ -91,7 +91,7 @@ export default function useSelectImage(condition, icon) {
         imageName = "default";
         break;
     }
-    return `public/weather/${imageName}.png`;
+    return `/weather/${imageName}.png`;
   };
   return { selectImage };
 }
