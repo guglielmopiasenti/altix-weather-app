@@ -8,6 +8,7 @@ import useGeolocation from './composables/useGeolocation';
 import useSelectBackgroundColor from './composables/useSelectBackgroundColor';
 import SearchBar from './components/SearchBar.vue';
 import Sidebar from './components/Sidebar.vue';
+import Loader from './components/Loader.vue';
 
 // Reactive state declarations
 const currentWeather = ref(null);
@@ -20,6 +21,7 @@ const cities = ref([]);
 const { city, getLocation } = useGeolocation();
 const tempUnit = ref('metric');
 const { selectBackgroundColor } = useSelectBackgroundColor();
+const isLoading = ref(true);
 
 // Fetch user's location on mount
 onMounted(() => {
@@ -34,6 +36,8 @@ const searchWeather = async (cityName, unit = tempUnit.value) => {
   } catch (err) {
     error.value = err;
     console.error("Error in App.vue:", err);
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -73,6 +77,7 @@ const updateTempUnit = (newUnit) => {
 
 
 <template>
+  <Loader v-if="isLoading" />
   <div class="antialiased bg-[url('public/background.jpg')] min-h-screen">
     <!-- Sidebar Component -->
     <div class="relative">
@@ -100,16 +105,21 @@ const updateTempUnit = (newUnit) => {
 
           <!-- main section -->
           <main>
-            <div v-if="currentWeather && currentWeather.weather && currentWeather.weather.length > 0" class="rounded-lg py-5 sm:py-6 px-3 sm:px-5 shadow" :class="selectBackgroundColor(currentWeather.weather[0].description)">
+            <div v-if="currentWeather && currentWeather.weather && currentWeather.weather.length > 0"
+              class="rounded-lg py-5 sm:py-6 px-3 sm:px-5 shadow"
+              :class="selectBackgroundColor(currentWeather.weather[0].description)">
               <div class="flex justify-between" v-if="currentWeather">
                 <div>
-                <h1 class="text-2xl sm:text-3xl pb-5 sm:pb-10">Current Weather in {{ currentWeather.name }}</h1>
-                <p class="font-light">Avg Temp: <span class="font-normal">{{ currentWeather.main.temp }} °{{ tempUnit ===
-                  'metric' ? 'C' : 'F' }}</span></p>
-                <p class="font-light">Condition: <span class="font-normal">{{
-                  currentWeather.weather[0].description }}</span></p>
+                  <h1 class="text-2xl sm:text-3xl pb-5 sm:pb-10">Current Weather in {{ currentWeather.name }}</h1>
+                  <p class="font-light">Avg Temp: <span class="font-normal">{{ currentWeather.main.temp }} °{{ tempUnit
+                    ===
+                    'metric' ? 'C' : 'F' }}</span></p>
+                  <p class="font-light">Condition: <span class="font-normal">{{
+                    currentWeather.weather[0].description }}</span></p>
                 </div>
-                  <img class="max-h-16 md:min-h-48" :src="selectImage(currentWeather.weather[0].description, currentWeather.weather[0].icon)" alt="Weather Image">
+                <img class="max-h-16 md:min-h-48"
+                  :src="selectImage(currentWeather.weather[0].description, currentWeather.weather[0].icon)"
+                  alt="Weather Image">
               </div>
             </div>
 
@@ -118,7 +128,7 @@ const updateTempUnit = (newUnit) => {
               <h2 class="text-xl sm:text-2xl py-5 sm:py-10 text-gray-200 font-bold">5 Day Forecast</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
                 <div
-                  class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg shadow-lg p-5"
+                  class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg shadow-lg p-5 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl"
                   v-for="(day, index) in groupedForecast" :key="index">
                   <div class="grid grid-cols-2 md-gap-5 md-pb-5">
                     <h3 class="text-lg">{{ day.date }}</h3>
@@ -139,7 +149,6 @@ const updateTempUnit = (newUnit) => {
 
     <!-- footer section -->
 
-  </div>
-</template>
+  </div></template>
 
 <style scoped></style>
