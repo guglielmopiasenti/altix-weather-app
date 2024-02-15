@@ -4,10 +4,10 @@ const CURRENT_WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather
 const FORECAST_API_URL = "https://api.openweathermap.org/data/2.5/forecast";
 const API_KEY = "3273650f64275c06b4e93f1c01ac9523";
 
-export const fetchCurrentWeather = async (city) => {
+export const fetchCurrentWeather = async (city, unit = "metric") => {
   try {
     const response = await axios.get(
-      `${CURRENT_WEATHER_API_URL}?q=${city}&appid=${API_KEY}&units=metric`
+      `${CURRENT_WEATHER_API_URL}?q=${city}&appid=${API_KEY}&units=${unit}`
     );
     return response.data;
   } catch (error) {
@@ -16,10 +16,10 @@ export const fetchCurrentWeather = async (city) => {
   }
 };
 
-export const fetchWeatherForecast = async (city) => {
+export const fetchWeatherForecast = async (city, unit = "metric") => {
   try {
     const response = await axios.get(
-      `${FORECAST_API_URL}?q=${city}&appid=${API_KEY}&units=metric`
+      `${FORECAST_API_URL}?q=${city}&appid=${API_KEY}&units=${unit}`
     );
     return response.data;
   } catch (error) {
