@@ -78,7 +78,7 @@ const updateTempUnit = (newUnit) => {
 
 <template>
   <Loader v-if="isLoading" />
-  <div class="antialiased bg-[url('/assets/background.jpg')] bg-no-repeat bg-cover min-h-screen">
+  <div class="antialiased bg-[url('/weather/background.jpg')] bg-no-repeat bg-cover min-h-screen">
     <!-- Sidebar Component -->
     <div class="relative">
       <!-- Background Overlay -->
