@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue';
 
+// Defines the component properties and emits events for search actions.
 const props = defineProps({
   defaultCity: String,
   cities: Array
@@ -8,11 +9,13 @@ const props = defineProps({
 const city = ref(props.defaultCity || '');
 const emit = defineEmits(['search', 'city-added']);
 
+// Emits a search event with the current city value.
 const emitSearch = () => {
   emit('search', city.value);
   emit('city-added', city.value);
 };
 </script>
+
 
 
 <template>

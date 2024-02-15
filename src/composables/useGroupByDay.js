@@ -1,6 +1,8 @@
 import { computed } from "vue";
 
+// Groups weather forecast data by day.
 export default function useGroupByDay(weatherForecast, selectImage) {
+  // Organizes forecast data into daily groups and calculates average temperature.
   const groupByDay = (forecastList) => {
     const grouped = forecastList.reduce((acc, item) => {
       const date = new Date(item.dt * 1000).toDateString();
@@ -24,17 +26,17 @@ export default function useGroupByDay(weatherForecast, selectImage) {
       return {
         date,
         avgTemp: avgTemp.toFixed(2),
-        condition,
-        imageUrl: selectImage(condition, icon),
+        condition: weatherItem.description,
+        imageUrl: selectImage(weatherItem.description, weatherItem.icon),
       };
     });
   };
 
+  // Reactive computation of grouped forecast data.
   const groupedForecast = computed(() => {
-    if (weatherForecast.value && weatherForecast.value.list) {
-      return groupByDay(weatherForecast.value.list);
-    }
-    return [];
+    return weatherForecast.value && weatherForecast.value.list
+      ? groupByDay(weatherForecast.value.list)
+      : [];
   });
 
   return { groupedForecast };

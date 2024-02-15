@@ -1,18 +1,15 @@
 <script setup>
-
+// Imports and initial setup
 import { ref, onMounted, watch } from 'vue';
-
 import { fetchCurrentWeather, fetchWeatherForecast } from './services/WeatherService';
-
 import useSelectImage from './composables/useSelectImage';
 import useGroupByDay from './composables/useGroupByDay';
 import useGeolocation from './composables/useGeolocation';
 import useSelectBackgroundColor from './composables/useSelectBackgroundColor';
-
 import SearchBar from './components/SearchBar.vue';
 import Sidebar from './components/Sidebar.vue';
 
-
+// Reactive state declarations
 const currentWeather = ref(null);
 const weatherForecast = ref(null);
 const error = ref(null);
@@ -24,11 +21,12 @@ const { city, getLocation } = useGeolocation();
 const tempUnit = ref('metric');
 const { selectBackgroundColor } = useSelectBackgroundColor();
 
-
+// Fetch user's location on mount
 onMounted(() => {
   getLocation();
 });
 
+// Function to search weather by city name and unit
 const searchWeather = async (cityName, unit = tempUnit.value) => {
   try {
     currentWeather.value = await fetchCurrentWeather(cityName, unit);
@@ -39,41 +37,38 @@ const searchWeather = async (cityName, unit = tempUnit.value) => {
   }
 };
 
-
+// Functions for handling city addition and selection
 const handleAddCity = (newCity) => {
   if (!cities.value.includes(newCity)) {
     cities.value.push(newCity);
     fetchCurrentWeather(newCity);
   }
 };
-
 const handleSelectCity = (city) => {
   searchWeather(city);
 };
 
+// Watchers for city change and temperature unit change
 watch(city, (newCity) => {
-  console.log("City in watch:", newCity);
   if (newCity) {
     searchWeather(newCity);
   } else {
     searchWeather('Rotterdam');
   }
 });
-
 watch(() => tempUnit.value, (newUnit) => {
   if (city.value) {
     searchWeather(city.value, newUnit);
   }
 });
 
-
+// Function to update temperature unit
 const updateTempUnit = (newUnit) => {
   tempUnit.value = newUnit;
   if (currentWeather.value && currentWeather.value.name) {
     searchWeather(currentWeather.value.name);
   }
 };
-
 </script>
 
 

@@ -1,11 +1,13 @@
 import { ref } from "vue";
 import { fetchLocationByCoords } from "../services/GeoLocalizationService";
 
+// Provides geolocation functionality.
 export default function useGeolocation() {
   const coords = ref({ latitude: null, longitude: null });
   const city = ref(null);
   const error = ref(null);
 
+  // Retrieves user's location and fetches corresponding city name.
   const getLocation = async () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
