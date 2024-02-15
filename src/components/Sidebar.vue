@@ -39,7 +39,7 @@ const toggleTempUnit = () => {
 
 <template>
   <div
-    class="fixed top-0 left-0 h-full min-w-fit md:min-w-[600px] bg-white bg-opacity-50 backdrop-filter backdrop-blur-sm transform -translate-x-full transition-transform duration-300 z-10"
+    class="fixed top-0 left-0 h-full w-screen md:w-[600px] bg-white bg-opacity-50 backdrop-filter backdrop-blur-sm transform -translate-x-full transition-transform duration-300 z-10"
     :class="{ 'translate-x-0': isOpen }">
     <div class="flex p-4 border-b justify-between items-center">
       <div class="flex">
